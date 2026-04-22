@@ -1,6 +1,6 @@
 # Face Mask Compliance Detection System
 
-**Author:** Kamalesh S P
+**Author:** [Kamalesh S P](https://github.com/Kamalesh-Suresh-Kumar)
 
 ## Project Overview
 
