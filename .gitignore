@@ -2,8 +2,4 @@
 venv/
 
 # Ignore the MiniProject docs report
-Project.md
-
-Model/
-app.py
 MiniProject - Face Mask Compliance Detection/
