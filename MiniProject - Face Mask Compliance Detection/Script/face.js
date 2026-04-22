@@ -23,6 +23,11 @@
   const barIncorrect = document.getElementById('barIncorrect');
   const barNoMask    = document.getElementById('barNoMask');
 
+  const btnStart = document.getElementById('btnStart');
+  const btnStop = document.getElementById('btnStop');
+  const videoFeed = document.getElementById('videoFeed');
+  const videoPlaceholder = document.getElementById('videoPlaceholder');
+
   // ── State ─────────────────────────────────────────────────
   let isOnline = false;
   let startTime = Date.now();
@@ -134,6 +139,35 @@
     setOffline();
     console.warn('[Video] Stream error — camera may be unavailable.');
   };
+
+  // ── Video Controls ───────────────────────────────────────
+  btnStart.addEventListener('click', () => {
+    videoPlaceholder.style.display = 'none';
+    videoFeed.style.display = 'block';
+    videoFeed.src = '/video?' + Date.now();
+    
+    btnStart.disabled = true;
+    btnStart.style.opacity = '0.5';
+    btnStop.disabled = false;
+    btnStop.style.opacity = '1';
+  });
+
+  btnStop.addEventListener('click', async () => {
+    videoFeed.src = '';
+    videoFeed.style.display = 'none';
+    videoPlaceholder.style.display = 'flex';
+    
+    btnStart.disabled = false;
+    btnStart.style.opacity = '1';
+    btnStop.disabled = true;
+    btnStop.style.opacity = '0.5';
+
+    try {
+      await fetch('/stop_camera');
+    } catch (e) {
+      console.warn('[Video] Error stopping camera:', e);
+    }
+  });
 
   // ── Init ─────────────────────────────────────────────────
   pollStats();
