@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Face Mask Compliance Detection System</title>
+  <meta name="description" content="Real-time AI-powered face mask compliance monitoring using CNN, MediaPipe, and HSV analysis." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/face.css" />
+</head>
+<body>
+
+  <!-- ───── HEADER ───── -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo-icon" aria-hidden="true">🛡️</div>
+      <div class="header-title">
+        <h1>Face Mask Compliance Detection</h1>
+        <span class="subtitle">Hybrid AI — Haar · MediaPipe · HSV · MobileNetV2</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-pill" id="connectionStatus">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Connecting…</span>
+      </div>
+      <div class="uptime-badge" id="uptimeBadge">⏱ 00:00:00</div>
+    </div>
+  </header>
+
+  <!-- ───── MAIN LAYOUT ───── -->
+  <main class="main-layout">
+
+    <!-- VIDEO PANEL -->
+    <section class="video-panel" aria-label="Live detection feed">
+      <div class="video-wrapper" id="videoWrapper">
+        <img
+          id="videoFeed"
+          src="/video"
+          alt="Live face mask detection feed"
+          class="video-feed"
+          onerror="handleVideoError()"
+        />
+        <div class="video-overlay-info">
+          <span class="fps-badge" id="fpsBadge">-- FPS</span>
+        </div>
+      </div>
+      <p class="video-caption">Live Camera Feed — Real-time Detection Active</p>
+    </section>
+
+    <!-- STATS PANEL -->
+    <aside class="stats-panel" aria-label="Detection statistics">
+
+      <!-- Total Faces -->
+      <div class="stat-card total" id="card-total">
+        <div class="stat-icon" aria-hidden="true">👤</div>
+        <div class="stat-info">
+          <div class="stat-label">Faces Detected</div>
+          <div class="stat-value" id="statTotal">0</div>
+        </div>
+      </div>
+
+      <!-- Correct Mask -->
+      <div class="stat-card correct" id="card-correct">
+        <div class="stat-icon" aria-hidden="true">✅</div>
+        <div class="stat-info">
+          <div class="stat-label">Correct Mask</div>
+          <div class="stat-value" id="statCorrect">0</div>
+        </div>
+        <div class="stat-bar-wrap">
+          <div class="stat-bar correct-bar" id="barCorrect"></div>
+        </div>
+      </div>
+
+      <!-- Incorrect Mask -->
+      <div class="stat-card incorrect" id="card-incorrect">
+        <div class="stat-icon" aria-hidden="true">⚠️</div>
+        <div class="stat-info">
+          <div class="stat-label">Incorrect Mask</div>
+          <div class="stat-value" id="statIncorrect">0</div>
+        </div>
+        <div class="stat-bar-wrap">
+          <div class="stat-bar incorrect-bar" id="barIncorrect"></div>
+        </div>
+      </div>
+
+      <!-- No Mask -->
+      <div class="stat-card nomask" id="card-nomask">
+        <div class="stat-icon" aria-hidden="true">❌</div>
+        <div class="stat-info">
+          <div class="stat-label">No Mask</div>
+          <div class="stat-value" id="statNoMask">0</div>
+        </div>
+        <div class="stat-bar-wrap">
+          <div class="stat-bar nomask-bar" id="barNoMask"></div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend-card">
+        <div class="legend-title">Detection Legend</div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background:#00c853;box-shadow:0 0 8px #00c853;"></span>
+          <span>Correct Mask — Full coverage</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background:#ff9100;box-shadow:0 0 8px #ff9100;"></span>
+          <span>Incorrect Mask — Partial/mispositioned</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background:#f44336;box-shadow:0 0 8px #f44336;"></span>
+          <span>No Mask — No face covering</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background:#00e5ff;box-shadow:0 0 8px #00e5ff;"></span>
+          <span>Eye landmarks (cyan dots)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background:#ff6b35;box-shadow:0 0 8px #ff6b35;"></span>
+          <span>Nose landmarks (orange dots)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background:#4488ff;box-shadow:0 0 8px #4488ff;"></span>
+          <span>Mouth landmarks (blue dots)</span>
+        </div>
+      </div>
+
+      <!-- Pipeline Info -->
+      <div class="pipeline-card">
+        <div class="pipeline-title">Detection Pipeline</div>
+        <div class="pipeline-step">
+          <span class="pipeline-num">1</span>
+          <span>Haar Cascade — Face bounding box</span>
+        </div>
+        <div class="pipeline-step">
+          <span class="pipeline-num">2</span>
+          <span>MediaPipe — 468 face landmarks</span>
+        </div>
+        <div class="pipeline-step">
+          <span class="pipeline-num">3</span>
+          <span>HSV Analysis — Skin exposure check</span>
+        </div>
+        <div class="pipeline-step">
+          <span class="pipeline-num">4</span>
+          <span>MobileNetV2 — CNN classification</span>
+        </div>
+        <div class="pipeline-step">
+          <span class="pipeline-num">5</span>
+          <span>Decision Fusion — Final label</span>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- ───── FOOTER ───── -->
+  <footer class="footer">
+    <span>Face Mask Compliance Detection System &mdash; Image Processing &amp; Computer Vision</span>
+    <span class="footer-tech">TensorFlow · OpenCV · MediaPipe · Flask</span>
+  </footer>
+
+  <script src="/static/face.js"></script>
+</body>
+</html>
