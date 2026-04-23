@@ -1,11 +1,13 @@
 # Ignore the virtual environment directory
 venv/
 
+# Ignore the Visual Studio Code settings directory
 .vscode/
 
+# Ignore the Datasets and Processed data directories
 Dataset1/
 Dataset2/
 Processed/
 
-
+# Ignore any zip files
 *.zip
