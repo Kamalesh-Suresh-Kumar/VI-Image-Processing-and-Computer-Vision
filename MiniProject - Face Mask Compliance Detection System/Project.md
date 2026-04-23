@@ -6,7 +6,7 @@
 
 A real-time **hybrid AI system** for detecting face mask compliance using a multi-stage pipeline combining classical computer vision with deep learning. The system identifies three states: **Correct Mask**, **Incorrect Mask**, and **No Mask**, and streams annotated video through a premium web dashboard.
 
-## 🎥 Demo Video
+## Demo Video
 
 You can view a demonstration of the system in action by checking the **`Demo.mp4`** file included in the root directory of this repository.
 
@@ -27,8 +27,8 @@ You can view a demonstration of the system in action by checking the **`Demo.mp4
           │                         │
   ┌───────▼───────┐       ┌────────▼────────┐
   │ 2. MediaPipe  │       │ 4. MobileNetV2  │
-  │    Face Mesh  │       │    CNN Classifier│
-  │  (468 landmarks)│     │  (3-class softmax)│
+  │    Face Mesh  │       │   CNN Classifier│
+  │(468 landmarks)│       │(3-class softmax)│
   └───────┬───────┘       └────────┬────────┘
           │                        │
   ┌───────▼───────┐                │
@@ -46,8 +46,8 @@ You can view a demonstration of the system in action by checking the **`Demo.mp4
          └────────┬────────┘
                   │
          ┌────────▼────────┐
-         │ OUTPUT: Annotated│
-         │ Frame + Label    │
+         │OUTPUT: Annotated│
+         │Frame + Label    │
          └─────────────────┘
 ```
 
