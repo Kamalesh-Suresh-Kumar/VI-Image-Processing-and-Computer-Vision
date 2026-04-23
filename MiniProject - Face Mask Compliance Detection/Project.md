@@ -131,7 +131,7 @@ This final, balanced dataset was pre-processed, merged, and augmented from the f
 |---------|--------|-------------|
 | Dataset1 | [Andrew MVD — Face Mask Detection](https://www.kaggle.com/datasets/andrewmvd/face-mask-detection) | 853 images with Pascal VOC XML annotations. Multi-face bounding boxes. Labels: `with_mask`, `without_mask`, `mask_weared_incorrect` |
 | Dataset2 | [Shiekhburhan — Face Mask Dataset](https://www.kaggle.com/datasets/shiekhburhan/face-mask-dataset) | ~14,500 pre-cropped face images in class folders with `simple`/`complex` subfolders |
-| Haar Cascade XML | [OpenCV — haarcascade_frontalface_default.xml](https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_default.xml) | Pre-trained frontal face detector cascade |
+| Haar Cascade XML | [OpenCV — haarcascade_frontalface_default.xml](https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_default.xml) | Pre-trained frontal face detector cascade. *(Note: Kept locally in the `Data/` folder for inference; not included in the Kaggle dataset).* |
 
 ## Model Performance
 
