@@ -1,7 +1,4 @@
 # Ignore the virtual environment directory
 venv/
 
-# Ignore the MiniProject docs report
-
-processed/
 .vscode/
