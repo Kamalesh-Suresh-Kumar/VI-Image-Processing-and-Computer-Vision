@@ -15,7 +15,7 @@
 | LAB8  | Object Detection using YOLOv8             | Implementation of real-time object detection using the YOLOv8 model on images and videos. |
 | LAB9  | Depth Estimation                          | Estimating depth information from stereo images using left and right image pairs. |
 | LAB10 | Feature Matching using RANSAC             | Matching features between two images and estimating transformations using RANSAC for robust matching. |
-| Mini - Project | Face Mask Compliance Detection | Real-time detection of face mask compliance using Haar Cascade for face detection and a trained SVM model for classifying mask usage (with mask, without mask, incorrect mask). The system is integrated with a Flask-based web interface for live webcam monitoring and built using OpenCV and a Kaggle dataset. |
+| Mini - Project | Face Mask Compliance Detection System | Real-time hybrid AI system for face mask compliance detection utilizing a multi-stage pipeline. The system combines Haar Cascade (face detection), MediaPipe Face Mesh (facial landmarks), HSV color analysis (skin exposure), and a trained MobileNetV2 CNN classifier to accurately classify mask usage (Correct Mask, Incorrect Mask, No Mask). It features a premium Flask-based web dashboard for live webcam monitoring and was built using a custom merged Kaggle dataset. |
 
 # Author
 **Name:** Kamalesh S P<br>

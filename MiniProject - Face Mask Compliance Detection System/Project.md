@@ -83,10 +83,15 @@ MiniProject - Face Mask Compliance Detection System/
 ├── requirements.txt           # Python dependencies
 ├── Project.md                 # This file — project documentation
 ├── ALGORITHMS_DOCUMENTATION.md# Detailed algorithm descriptions
+├── observation.md             # Project abstract and fine-tuning methodology
 ├── Demo.mp4                   # Video demonstration of the live system
 │
 ├── Data/
-│   └── haarcascade_frontalface_default.xml
+│   ├── Dataset1/              # Raw data from Andrew MVD dataset(Ignored, since the dataset is in the attached kaggle link)
+│   ├── Dataset2/              # Raw data from Shiekhburhan dataset(Ignored, since the dataset is in the attached kaggle link)
+│   ├── processed/             # Preprocessed and split dataset images(Ignored, since the dataset is in the attached kaggle link)
+│   ├── face-mask-compliance-detection-system-dataset-v1.zip # Archived dataset(Ignored, since the dataset is in the attached kaggle link)
+│   └── haarcascade_frontalface_default.xml # Face detection cascade
 │
 ├── Model/
 │   ├── mask_detector_mobilenetv2.h5    # Trained CNN weights
