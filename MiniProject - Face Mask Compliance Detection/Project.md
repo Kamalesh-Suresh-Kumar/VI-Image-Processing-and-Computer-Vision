@@ -123,7 +123,7 @@ Open browser at **http://localhost:5000** to view the live dashboard.
 
 ## Datasets
 
-**🌟 Official Project Dataset:** [Face Mask Compliance Detection System Dataset v1](https://www.kaggle.com/datasets/kamaleshsp/face-mask-compliance-detection-system-dataset-v1)
+**🌟 Official Project Dataset:** [Face Mask Compliance Detection System Dataset](https://www.kaggle.com/datasets/kamaleshsp/face-mask-compliance-detection-system-dataset-v1)
 
 This final, balanced dataset was pre-processed, merged, and augmented from the following source datasets:
 
