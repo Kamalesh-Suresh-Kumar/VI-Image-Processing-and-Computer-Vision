@@ -2,3 +2,10 @@
 venv/
 
 .vscode/
+
+Dataset1/
+Dataset2/
+Processed/
+
+
+*.zip

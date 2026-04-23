@@ -6,6 +6,10 @@
 
 A real-time **hybrid AI system** for detecting face mask compliance using a multi-stage pipeline combining classical computer vision with deep learning. The system identifies three states: **Correct Mask**, **Incorrect Mask**, and **No Mask**, and streams annotated video through a premium web dashboard.
 
+## 🎥 Demo Video
+
+You can view a demonstration of the system in action by checking the **`Demo.mp4`** file included in the root directory of this repository.
+
 ## Architecture
 
 ```
@@ -71,13 +75,15 @@ A real-time **hybrid AI system** for detecting face mask compliance using a mult
 ## Project Structure
 
 ```
-MiniProject - Face Mask Compliance Detection/
+MiniProject - Face Mask Compliance Detection System/
 ├── app.py                     # Flask backend — full detection pipeline + web server
 ├── preprocess_data.py         # Data preprocessing — crop, augment, balance, split
 ├── train_model.py             # CNN training — MobileNetV2 transfer learning
+├── model_evaluation.ipynb     # Jupyter Notebook to evaluate trained CNN performance
 ├── requirements.txt           # Python dependencies
 ├── Project.md                 # This file — project documentation
 ├── ALGORITHMS_DOCUMENTATION.md# Detailed algorithm descriptions
+├── Demo.mp4                   # Video demonstration of the live system
 │
 ├── Data/
 │   └── haarcascade_frontalface_default.xml
@@ -103,11 +109,13 @@ MiniProject - Face Mask Compliance Detection/
 pip install -r requirements.txt
 ```
 
-### 2. Preprocess Data
+### 2. Preprocess Data (Optional)
 ```bash
 python preprocess_data.py
 ```
-This parses both datasets, crops faces, augments to balance classes, resizes to 224×224, and splits into train/val sets.
+*(Note: To run this script from scratch, you must first download the raw datasets from Kaggle into the `Data/` folder. Otherwise, you can skip this step and use the pre-processed data directly!)*
+
+This script parses both datasets, crops faces, augments to balance classes, resizes to 224×224, and splits into train/val sets.
 
 ### 3. Train Model
 ```bash
@@ -123,7 +131,7 @@ Open browser at **http://localhost:5000** to view the live dashboard.
 
 ## Datasets
 
-**🌟 Official Project Dataset:** [Face Mask Compliance Detection System Dataset](https://www.kaggle.com/datasets/kamaleshsp/face-mask-compliance-detection-system-dataset-v1)
+**Official Project Dataset:** [Face Mask Compliance Detection System Dataset](https://www.kaggle.com/datasets/kamaleshsp/face-mask-compliance-detection-system-dataset-v1)
 
 This final, balanced dataset was pre-processed, merged, and augmented from the following source datasets:
 
@@ -138,8 +146,8 @@ This final, balanced dataset was pre-processed, merged, and augmented from the f
 - **Architecture**: MobileNetV2 (ImageNet pre-trained) + custom classification head
 - **Input Size**: 224 × 224 × 3
 - **Classes**: `proper_mask`, `incorrect_mask`, `no_mask`
-- **Validation Accuracy**: ~92.79%
-- **F1 Score**: ~92.80
+- **Validation Accuracy**: ~93.39%
+- **F1 Score**: ~93.00%
 
 ## Technologies
 

@@ -596,6 +596,12 @@ def stop_camera():
     global _stream_active
     _stream_active = False
     release_capture()
+    with _stats_lock:
+        _stats["total_faces"] = 0
+        _stats["proper_mask"] = 0
+        _stats["incorrect_mask"] = 0
+        _stats["no_mask"] = 0
+        _stats["fps"] = 0.0
     return jsonify({"status": "camera stopped"})
 
 
@@ -670,7 +676,7 @@ if __name__ == "__main__":
 
     detector = FaceMaskDetector()
 
-    print("  [4/4] Starting Flask server ...")
+    print("  [4/4] Starting Flask server      ... loaded")
     print()
     print("  URL  : http://localhost:5000")
     print("  STOP : Press Ctrl+C to shut down cleanly")

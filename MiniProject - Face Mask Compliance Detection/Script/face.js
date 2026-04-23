@@ -31,6 +31,7 @@
   // ── State ─────────────────────────────────────────────────
   let isOnline = false;
   let startTime = Date.now();
+  let uptimeInterval = null;
 
   // ── Uptime Timer ──────────────────────────────────────────
   function formatTime(seconds) {
@@ -40,10 +41,20 @@
     return `⏱ ${h}:${m}:${s}`;
   }
 
-  setInterval(() => {
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    uptimeBadge.textContent = formatTime(elapsed);
-  }, 1000);
+  function startUptime() {
+    startTime = Date.now();
+    if (uptimeInterval) clearInterval(uptimeInterval);
+    uptimeBadge.textContent = formatTime(0);
+    uptimeInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      uptimeBadge.textContent = formatTime(elapsed);
+    }, 1000);
+  }
+
+  function stopUptime() {
+    if (uptimeInterval) clearInterval(uptimeInterval);
+    uptimeBadge.textContent = "⏱ 00:00:00";
+  }
 
   // ── Animated counter ─────────────────────────────────────
   function animateValue(el, newVal) {
@@ -150,6 +161,8 @@
     btnStart.style.opacity = '0.5';
     btnStop.disabled = false;
     btnStop.style.opacity = '1';
+    
+    startUptime();
   });
 
   btnStop.addEventListener('click', async () => {
@@ -161,6 +174,10 @@
     btnStart.style.opacity = '1';
     btnStop.disabled = true;
     btnStop.style.opacity = '0.5';
+    
+    stopUptime();
+    applyStats({total_faces: 0, proper_mask: 0, incorrect_mask: 0, no_mask: 0, fps: 0});
+    setOffline();
 
     try {
       await fetch('/stop_camera');

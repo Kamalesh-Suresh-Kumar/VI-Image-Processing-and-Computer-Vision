@@ -1,4 +1,4 @@
-# Algorithms Documentation — Face Mask Compliance Detection
+# Algorithms Documentation — Face Mask Compliance Detection System
 
 ## Table of Contents
 
@@ -68,7 +68,7 @@ The model runs in real-time on CPU (10+ FPS) with high precision, providing sub-
 | `min_tracking_confidence` | 0.5 |
 
 ### File
-- **Task file**: `Data/face_landmarker.task`
+- **Task file**: `Model/face_landmarker.task`
 - **Usage**: `app.py` → `FaceMaskDetector.get_landmarks()`
 
 ---
