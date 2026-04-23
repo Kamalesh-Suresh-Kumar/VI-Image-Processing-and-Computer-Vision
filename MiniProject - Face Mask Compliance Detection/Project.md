@@ -123,6 +123,10 @@ Open browser at **http://localhost:5000** to view the live dashboard.
 
 ## Datasets
 
+**🌟 Official Project Dataset:** [Face Mask Compliance Detection System Dataset v1](https://www.kaggle.com/datasets/kamaleshsp/face-mask-compliance-detection-system-dataset-v1)
+
+This final, balanced dataset was pre-processed, merged, and augmented from the following source datasets:
+
 | Dataset | Source | Description |
 |---------|--------|-------------|
 | Dataset1 | [Andrew MVD — Face Mask Detection](https://www.kaggle.com/datasets/andrewmvd/face-mask-detection) | 853 images with Pascal VOC XML annotations. Multi-face bounding boxes. Labels: `with_mask`, `without_mask`, `mask_weared_incorrect` |
