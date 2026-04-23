@@ -80,23 +80,12 @@ MiniProject - Face Mask Compliance Detection/
 ├── ALGORITHMS_DOCUMENTATION.md# Detailed algorithm descriptions
 │
 ├── Data/
-│   ├── Dataset1/              # Andrew MVD dataset (images + XML annotations)
-│   │   ├── images/
-│   │   └── annotations/
-│   ├── Dataset2/              # Shiekhburhan FMD dataset (pre-cropped faces)
-│   │   ├── with_mask/
-│   │   ├── without_mask/
-│   │   └── incorrect_mask/
-│   ├── processed/             # Output of preprocess_data.py
-│   │   ├── train/
-│   │   ├── val/
-│   │   └── stats.json
-│   ├── haarcascade_frontalface_default.xml
-│   └── face_landmarker.task
+│   └── haarcascade_frontalface_default.xml
 │
 ├── Model/
 │   ├── mask_detector_mobilenetv2.h5    # Trained CNN weights
 │   ├── class_labels.json               # Class index → label mapping
+│   ├── face_landmarker.task            # MediaPipe Face Landmark Task
 │   └── training_history.png            # Accuracy/loss plots
 │
 ├── Template/
