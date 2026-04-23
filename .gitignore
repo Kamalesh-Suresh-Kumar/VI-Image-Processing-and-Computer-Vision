@@ -2,6 +2,7 @@
 venv/
 
 # Ignore the MiniProject docs report
-DATA/
 
+Dataset2/
+processed/
 .vscode/
