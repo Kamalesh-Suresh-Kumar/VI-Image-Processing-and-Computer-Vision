@@ -1,0 +1,60 @@
+5. Algorithm: Haar Cascade + MediaPipe + MobileNetV2
+
+5.1 Algorithm Overview
+Algorithm 1 is a multi-stage hybrid pipeline designed for high-accuracy face mask compliance detection. It separates the tasks of face localization, landmark extraction, and mask classification into independent modules, fused together by a rule-based decision layer. This modular design allows the system to utilize lightweight classical detectors (Haar Cascade) alongside high-precision neural detectors (MediaPipe) and deep classifiers (MobileNetV2), providing a robust fail-safe mechanism for real-world deployment.
+
+5.2 Stage 1 — Hybrid Face Detection and Landmark Extraction
+The system utilizes a dual-path detection strategy to ensure 100% detection reliability:
+•   Primary Path (MediaPipe): The system first attempts to detect faces using the MediaPipe Face Landmarker. This detector uses a sub-millisecond BlazeFace model to locate the face and extract 468 3D landmarks. These landmarks provide the geometric context needed for compliance checking (locating the nose bridge and mouth corners).
+•   Fallback Path (Haar Cascade): If MediaPipe is unavailable or fails to detect a face due to extreme angles, the system falls back to a Haar Cascade classifier. This classical method uses a cascade of simple features to detect facial patterns, ensuring the system remains functional even on low-power hardware.
+Once a face is localized, the bounding box is dynamically padded (15-30%) to include the forehead and chin areas, ensuring the full mask region is captured for Stage 2.
+
+5.3 Stage 2 — MobileNetV2 Classification
+Each cropped face region is passed to a fine-tuned MobileNetV2 classifier. MobileNetV2 was selected for its exceptional efficiency, utilizing inverted residual blocks and depthwise separable convolutions to maintain high accuracy at low latency. 
+The model was implemented using Transfer Learning:
+- Backbone: ImageNet pre-trained MobileNetV2 (weights frozen for initial epochs).
+- Custom Head: A Global Average Pooling layer followed by a Dense layer with a 3-class Softmax activation.
+- Output: The model predicts probabilities for three distinct classes: proper_mask, no_mask, and incorrect_mask.
+
+5.4 Stage 3 — Decision Fusion and Skin Analysis
+A unique feature of this algorithm is the Decision Fusion Layer, which cross-validates the CNN's prediction using physical evidence from the MediaPipe landmarks:
+1. ROI Extraction: The system extracts small regions around the nose (landmark 1, 2, 98, 327) and mouth (landmark 13, 14, 78, 308).
+2. HSV Skin Check: HSV-based skin color analysis is performed on these specific regions. If a significant percentage of skin is detected in the nose or mouth area, the "incorrect_mask" or "no_mask" flag is raised, overriding the CNN if necessary.
+3. Logical Fusion: The final label is determined by combining the CNN’s classification with the results of the skin check, ensuring that "chin-strap" mask wearing (nose exposed) is always correctly identified.
+
+Table 3: Implementation Configuration
+-----------------------------------------------------------------------------------------
+Parameter               | Value
+-----------------------------------------------------------------------------------------
+Face Detector           | MediaPipe Face Mesh (Primary) + Haar Cascade (Fallback)
+Feature Extraction      | 468 3D Facial Landmarks + HSV Skin Analysis
+Classifier Architecture | MobileNetV2 (ImageNet Pre-trained)
+Input Size (CNN)        | 224 × 224 pixels (RGB)
+Output Classes          | 3 (proper_mask, no_mask, incorrect_mask)
+Training Epochs         | 20 Epochs (Early Stopping used)
+Optimiser               | Adam (Learning Rate = 1e-4)
+Loss Function           | Categorical Cross-Entropy
+Validation Accuracy     | 93.39%
+Hardware Environment    | Intel i5 CPU / 8GB RAM / Standard 720p Webcam
+Libraries               | Python 3.10+, OpenCV 4.x, TensorFlow 2.x, MediaPipe 0.10+
+-----------------------------------------------------------------------------------------
+
+5.5 Algorithm Flowchart
+The complete processing pipeline is described as follows:
+1.  INPUT: Live video stream (webcam) or static image.
+2.  PREPROCESSING: Frame downscaling, grayscale conversion, and contrast enhancement (CLAHE).
+3.  STAGE 1 — DETECTION: 
+    - Attempt MediaPipe Face Mesh detection.
+    - IF fail, run Haar Cascade detection.
+    - EXTRACT: Bounding box + 468 landmarks.
+4.  STAGE 2 — FEATURE ANALYSIS:
+    - Perform HSV Skin analysis on nose and mouth regions (using landmarks).
+5.  STAGE 3 — CLASSIFICATION:
+    - Resize face crop to 224x224 and normalize.
+    - Run MobileNetV2 inference to get class probabilities.
+6.  DECISION FUSION: 
+    - Merge CNN label with HSV skin signals (Logic: If skin on nose=True → Label = Incorrect Mask).
+7.  OUTPUT: Annotated frame with color-coded bounding boxes and compliance labels.
+    - Proper Mask: Green (Compliance)
+    - Incorrect Mask: Orange (Warning)
+    - No Mask: Red (Violation)
